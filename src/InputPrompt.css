@@ -1,0 +1,16 @@
+body {
+	font-size: 100%;
+}
+
+.inputs {
+	margin: 10em auto;
+	width: 11em;
+	display: flex;
+	justify-content: space-between;
+}
+
+.input-field {
+	font-size: 18px;
+	padding: 10px 5px 10px 10px;
+	width: 1em;
+}
