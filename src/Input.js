@@ -17,17 +17,37 @@ export default class Input extends Component {
 	}
 
 	handleKeyDown = event => {
-		const { onKeyDown, id } = this.props;
+		const { onKeyDown, id, value, onChange } = this.props;
 		const key = event.key;
 
-		switch (key) {
-			case 'ArrowLeft':
-			case 'ArrowRight':
-				if (this.instance) {
-					this.instance.select();
-				}
+		// If there is already a value, and the value is the same as the input
+		// key, this won't trigger an onChange event, so we'll trigger (just a
+		// simple function call in our case) that manually, and avoid
+		// triggerring the key down event
+		if (value || value === 0) {
+			const valueStr = value.toString();
+
+			if (valueStr === key) {
 				event.preventDefault();
-				break;
+
+				if (typeof onChange === 'function') {
+					onChange({
+						value,
+						id
+					});
+				}
+				return;
+			}
+		}
+
+		// if the navigation keys are used, then we have to select the existing
+		// input, and avoid propagating the event so that the cursor won't show
+		// up.
+		if (key === 'ArrowLeft' || key === 'ArrowRight') {
+			if (this.instance) {
+				this.instance.select();
+			}
+			event.preventDefault();
 		}
 
 		if (typeof onKeyDown === 'function') {
