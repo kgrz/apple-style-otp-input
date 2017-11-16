@@ -51,6 +51,8 @@ class InputPrompt extends Component {
 					if (this.state.value[event.id] !== '') {
 						return;
 					}
+				// We are in the first input box, so we don't need any changes
+				// to state on backspace.
 				if (event.id === 0)
 					return;
 
