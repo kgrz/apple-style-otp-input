@@ -3,8 +3,6 @@ body {
 }
 
 .inputs {
-	margin: 10em auto;
-	width: 11em;
 	display: flex;
 	justify-content: space-between;
 }
@@ -13,4 +11,22 @@ body {
 	font-size: 18px;
 	padding: 10px 5px 10px 10px;
 	width: 1em;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	margin: 10em auto;
+	width: 11em;
+}
+
+kbd {
+	text-align: center;
+	width: auto;
+	margin: 40px auto 0;
+	padding: 5px 15px;
+	border-radius: 4px;
+	background: #EEEEEE;
+	border: 1px solid #d1d1d1;
+	box-shadow: 1px 1px #E0E0E0, inset 1px 1px 6px 2px #fff9;
 }

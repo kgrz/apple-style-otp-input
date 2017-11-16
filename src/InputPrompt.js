@@ -17,7 +17,7 @@ const clamp = (value, min, max) => {
 }
 
 class InputPrompt extends Component {
-	state = { value: [], focusId: 0, skipOnChange: false }
+	state = { key: null, value: [], focusId: 0, skipOnChange: false }
 
 	clamp = value => clamp(value, 0, InputCount)
 
@@ -40,7 +40,7 @@ class InputPrompt extends Component {
 	}
 
 	handleKeyDown = event => {
-		const state = {};
+		const state = { key: event.key };
 
 		switch (event.key) {
 			case 'Backspace':
@@ -72,7 +72,7 @@ class InputPrompt extends Component {
 				});
 				break;
 			default:
-				return;
+				break;
 		}
 
 		this.setState(state);
@@ -93,9 +93,17 @@ class InputPrompt extends Component {
 			);
 		}
 
+		console.log(this.state.key);
 		return (
-			<div className='inputs'>
-				{ inputs }
+			<div className='wrapper'>
+				<div className='inputs'>
+					{ inputs }
+				</div>
+				{
+					this.state.key || this.state.key === 0
+						? <kbd>{this.state.key}</kbd>
+						: null
+				}
 			</div>
 		);
 	}
