@@ -56,10 +56,13 @@ class InputPrompt extends React.Component<{}, InputPromptState> {
 				// If we are in the last input box, and there is some value in
 				// that field, backspace should not advance the cursor
 				// position.
-				if (event.id === InputCount-1)
-					if (this.state.value[id] !== '') {
+				if (id === InputCount-1) {
+					const stateValue = this.state.value[id];
+
+					if (stateValue !== '' && typeof stateValue !== 'undefined') {
 						return;
 					}
+				}
 				// We are in the first input box, so we don't need any changes
 				// to state on backspace.
 				if (event.id === 0)
@@ -81,7 +84,7 @@ class InputPrompt extends React.Component<{}, InputPromptState> {
 				});
 				break;
 			default:
-				break;
+				return;
 		}
 
 		this.setState(state);
