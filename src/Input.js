@@ -20,6 +20,20 @@ type InputProps = {
 	autoFocus: boolean;
 }
 
+const ValidInputValues = Array.from(Array(123).keys()).filter(
+	number =>
+	(
+		(number >= 48 && number <= 57) ||
+		(number >= 65 && number <= 90) ||
+		(number >= 97 && number <= 122)
+	)
+).map(number => String.fromCharCode(number)).concat([
+	'Backspace',
+	'Tab'
+]);
+
+console.log(ValidInputValues);
+
 export default class Input extends React.Component<InputProps> {
 	instance: ?HTMLInputElement;
 	isFocussed: boolean;
@@ -41,6 +55,10 @@ export default class Input extends React.Component<InputProps> {
 	handleKeyDown = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
 		const { onKeyDown, id, value, onChange } = this.props;
 		const key = event.key;
+
+		if (ValidInputValues.indexOf(key) === -1) {
+			event.preventDefault();
+		}
 
 		// If there is already a value, and the value is the same as the input
 		// key, this won't trigger an onChange event, so we'll trigger (just a
@@ -66,7 +84,6 @@ export default class Input extends React.Component<InputProps> {
 			if (this.instance) {
 				this.instance.select();
 			}
-			event.preventDefault();
 		}
 
 		if (typeof onKeyDown === 'function') {
@@ -75,6 +92,9 @@ export default class Input extends React.Component<InputProps> {
 	}
 
 	handleOnChange = (event: SyntheticEvent<HTMLInputElement>) => {
+		if (event.defaultPrevented) {
+			return;
+		}
 		const { onChange, id } = this.props;
 
 		const target = event.currentTarget;
