@@ -20,6 +20,7 @@ type InputProps = {
 	autoFocus: boolean;
 }
 
+// Generates the list of ASCII alphanumeric characters
 const ValidInputValues = Array.from(Array(123).keys()).filter(
 	number =>
 	(
