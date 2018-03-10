@@ -32,8 +32,6 @@ const ValidInputValues = Array.from(Array(123).keys()).filter(
 	'Tab'
 ]);
 
-console.log(ValidInputValues);
-
 export default class Input extends React.Component<InputProps> {
 	instance: ?HTMLInputElement;
 	isFocussed: boolean;
