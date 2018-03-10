@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import './InputPrompt.css';
+import './index.css';
 
 export type ChangeEvent = {
 	value: string,

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import Input from './Input';
 import type { ChangeEvent, KeyDownEvent } from './Input';
-import './InputPrompt.css';
+import './index.css';
 
 const InputCount = 4;
 
