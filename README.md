@@ -34,6 +34,4 @@ Running
 Visit http://localhost:3000 if all goes well.
 
 
-Preview:
-
-<iframe src="https://codesandbox.io/embed/pm67jkwwox" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+Preview on CodeSandbox: https://codesandbox.io/s/pm67jkwwox
