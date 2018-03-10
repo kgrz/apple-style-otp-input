@@ -1,11 +1,33 @@
-import React, { Component } from 'react';
+// @flow
+import * as React from 'react';
 import './InputPrompt.css';
 
-export default class Input extends Component {
+export type ChangeEvent = {
+	value: string,
+	id: number
+}
+
+export type KeyDownEvent = {
+	id: number,
+	key: string
+}
+
+type InputProps = {
+	id: number;
+	value: string;
+	onChange: (ChangeEvent) => void;
+	onKeyDown: (KeyDownEvent) => void;
+	autoFocus: boolean;
+}
+
+export default class Input extends React.Component<InputProps> {
+	instance: ?HTMLInputElement;
+	isFocussed: boolean;
+
 	componentDidUpdate() {
 		const instance = this.instance;
 
-		if (this.props.autoFocus === true && !this.isFocussed) {
+		if (this.props.autoFocus === true && !this.isFocussed && instance) {
 			this.isFocussed = true;
 			instance.focus();
 			if (this.props.value || this.props.value === 0) {
@@ -16,7 +38,7 @@ export default class Input extends Component {
 		}
 	}
 
-	handleKeyDown = event => {
+	handleKeyDown = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
 		const { onKeyDown, id, value, onChange } = this.props;
 		const key = event.key;
 
@@ -31,10 +53,7 @@ export default class Input extends Component {
 				event.preventDefault();
 
 				if (typeof onChange === 'function') {
-					onChange({
-						value,
-						id
-					});
+					onChange({ value, id });
 				}
 				return;
 			}
@@ -51,14 +70,11 @@ export default class Input extends Component {
 		}
 
 		if (typeof onKeyDown === 'function') {
-			onKeyDown({
-				id,
-				key
-			});
+			onKeyDown({ id, key });
 		}
 	}
 
-	handleOnChange = event => {
+	handleOnChange = (event: SyntheticEvent<HTMLInputElement>) => {
 		const { onChange, id } = this.props;
 
 		const target = event.currentTarget;
@@ -74,35 +90,28 @@ export default class Input extends Component {
 		}
 	}
 
-	handleOnFocus = event => {
-		const { onFocus, id } = this.props;
-
-		if (typeof onFocus === 'function') {
-			onFocus({ id });
-		}
+	handleOnClick = () => {
+		this.instance && this.instance.select();
 	}
 
-	handleOnClick = event => {
-		this.instance.select();
-	}
-
-	setRef = element => this.instance = element;
+	setRef = (element: ?HTMLInputElement) => (this.instance = element)
 
 	render () {
 		const { id, autoFocus } = this.props;
 
+		const inputId = `input-${id}`;
+
 		return (
 			<input
 				ref={this.setRef}
-				id={`input-${id}`}
-				name={`input-${id}`}
+				id={inputId}
+				name={inputId}
 				type='text'
 				maxLength={1}
 				size={1}
 				className='input-field'
 				onChange={this.handleOnChange}
 				onKeyDown={this.handleKeyDown}
-				onFocus={this.handleOnFocus}
 				autoFocus={autoFocus}
 				autoComplete="off"
 				onClick={this.handleOnClick}

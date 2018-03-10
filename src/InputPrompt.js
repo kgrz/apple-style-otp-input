@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+// @flow
+import * as React from 'react';
 import Input from './Input';
+import type { ChangeEvent, KeyDownEvent } from './Input';
 import './InputPrompt.css';
 
 const InputCount = 4;
 
-const clamp = (value, min, max) => {
+const clamp = (value: number, min: number, max: number): number => {
 	if (value > max) {
 		return max;
 	}
@@ -16,12 +18,18 @@ const clamp = (value, min, max) => {
 	return value;
 }
 
-class InputPrompt extends Component {
+type InputPromptState = {
+	key: null | string;
+	focusId: number;
+	skipOnChange: boolean;
+	value: Array<string>;
+}
+
+class InputPrompt extends React.Component<{}, InputPromptState> {
 	state = { key: null, value: [], focusId: 0, skipOnChange: false }
+	clamp = (value: number) => clamp(value, 0, InputCount)
 
-	clamp = value => clamp(value, 0, InputCount)
-
-	handleOnChange = event => {
+	handleOnChange = (event: ChangeEvent) => {
 		const value = this.state.value;
 		value[event.id] = event.value;
 
@@ -39,8 +47,9 @@ class InputPrompt extends Component {
 		});
 	}
 
-	handleKeyDown = event => {
-		const state = { key: event.key };
+	handleKeyDown = (event: KeyDownEvent) => {
+		const state: InputPromptState = Object.assign({}, this.state, { key: event.key });
+		const id = event.id;
 
 		switch (event.key) {
 			case 'Backspace':
@@ -48,7 +57,7 @@ class InputPrompt extends Component {
 				// that field, backspace should not advance the cursor
 				// position.
 				if (event.id === InputCount-1)
-					if (this.state.value[event.id] !== '') {
+					if (this.state.value[id] !== '') {
 						return;
 					}
 				// We are in the first input box, so we don't need any changes
@@ -57,18 +66,18 @@ class InputPrompt extends Component {
 					return;
 
 				Object.assign(state, {
-					focusId: this.clamp(event.id - 1),
+					focusId: this.clamp(id - 1),
 					skipOnChange: true
 				});
 				break;
 			case 'ArrowLeft':
 				Object.assign(state, {
-					focusId: this.clamp(event.id - 1)
+					focusId: this.clamp(id - 1)
 				});
 				break;
 			case 'ArrowRight':
 				Object.assign(state, {
-					focusId: this.clamp(event.id + 1)
+					focusId: this.clamp(id + 1)
 				});
 				break;
 			default:
@@ -79,7 +88,7 @@ class InputPrompt extends Component {
 	}
 
 	render() {
-		const inputs = [];
+		const inputs: Array<React.Element<typeof Input>> = [];
 		for (let i = 0, len = InputCount; i < len; i++) {
 			inputs.push(
 				<Input
@@ -93,7 +102,6 @@ class InputPrompt extends Component {
 			);
 		}
 
-		console.log(this.state.key);
 		return (
 			<div className='wrapper'>
 				<div className='inputs'>
