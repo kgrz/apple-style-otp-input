@@ -35,3 +35,13 @@ Visit http://localhost:3000 if all goes well.
 
 
 Preview on CodeSandbox: https://codesandbox.io/s/pm67jkwwox
+
+
+Confusing areas
+---------------
+
+1. The logic in `InputPrompt` an `Input` is split, most of it looks
+   repetitive, but slightly different.
+
+2. `handleOnChange` and `handleKeyDown` are not the standard event
+   handlers, but the usage and naming might suggest that.
