@@ -4,7 +4,7 @@ import Input from './Input';
 import type { ChangeEvent, KeyDownEvent } from './Input';
 import './index.css';
 
-const InputCount = 4;
+const InputCount = 6;
 
 const clamp = (value: number, min: number, max: number): number => {
 	if (value > max) {
